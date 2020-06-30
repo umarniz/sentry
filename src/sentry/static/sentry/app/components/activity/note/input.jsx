@@ -10,7 +10,6 @@ import NavTabs from 'app/components/navTabs';
 import {IconMarkdown} from 'app/icons';
 import marked from 'app/utils/marked';
 import space from 'app/styles/space';
-import textStyles from 'app/styles/text';
 
 import Mentionables from './mentionables';
 import mentionStyle from './mentionStyle';
@@ -358,9 +357,7 @@ const NoteInputForm = styled('form')`
   ${getNoteInputErrorStyles}
 `;
 
-const NoteInputBody = styled('div')`
-  ${textStyles}
-`;
+const NoteInputBody = styled('div')``;
 
 const Footer = styled('div')`
   display: flex;
