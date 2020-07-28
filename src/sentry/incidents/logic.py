@@ -1029,7 +1029,10 @@ def create_alert_rule_trigger_action(
 
     target_display = None
     if type.value in AlertRuleTriggerAction.INTEGRATION_TYPES:
-        if target_type != AlertRuleTriggerAction.TargetType.SPECIFIC:
+        if target_type not in [
+            AlertRuleTriggerAction.TargetType.SPECIFIC,
+            AlertRuleTriggerAction.TargetType.OPTIONS,
+        ]:
             raise InvalidTriggerActionError("Must specify specific target type")
 
         channel_id = get_alert_rule_trigger_action_integration_object_id(
@@ -1095,7 +1098,7 @@ def get_alert_rule_trigger_action_integration_object_id(type, *args, **kwargs):
     elif type == AlertRuleTriggerAction.Type.MSTEAMS.value:
         return get_alert_rule_trigger_action_msteams_channel_id(*args, **kwargs)
     elif type == AlertRuleTriggerAction.Type.PAGERDUTY.value:
-        return get_alert_rule_trigger_action_pagerduty_channel_id(*args, **kwargs)
+        return get_alert_rule_trigger_action_pagerduty_service_id(*args, **kwargs)
     else:
         raise Exception("Not implemented")
 
@@ -1140,7 +1143,7 @@ def get_alert_rule_trigger_action_msteams_channel_id(organization, integration_i
     return channel_id
 
 
-def get_alert_rule_trigger_action_pagerduty_channel_id(integration_id):
+def get_alert_rule_trigger_action_pagerduty_service_id(organization, integration_id, name):
     from sentry.models import OrganizationIntegration, PagerDutyService
 
     services = PagerDutyService.objects.filter(
