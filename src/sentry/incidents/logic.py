@@ -24,6 +24,7 @@ from sentry.incidents.models import (
     IncidentActivityType,
     IncidentProject,
     IncidentSnapshot,
+    PagerDutyService,
     PendingIncidentSnapshot,
     IncidentSeen,
     IncidentStatus,
@@ -1038,6 +1039,14 @@ def create_alert_rule_trigger_action(
 
         # Use the channel name for display
         target_display = target_identifier
+
+        if type == AlertRuleTriggerAction.Type.PAGERDUTY:
+            try:
+                service = PagerDutyService.objects.get(id=target_display)
+                target_display = service.service_name
+            except PagerDutyService.DoesNotExist:
+                pass
+
         target_identifier = channel_id
 
     return AlertRuleTriggerAction.objects.create(
