@@ -21,6 +21,7 @@ import space from 'app/styles/space';
 import LoadingIndicator from 'app/components/loadingIndicator';
 
 import TeamCard from './teamCard';
+import {Grid} from './cards';
 
 type Props = RouteComponentProps<
   {orgId: string; projectId: string; location: Location},
@@ -120,7 +121,10 @@ const TeamsDashboard = ({
   return (
     <React.Fragment>
       <SentryDocumentTitle title={t('Teams Dashboard')} objSlug={organization.slug} />
-      <PageContent>{isLoading ? <LoadingIndicator /> : renderContent()}</PageContent>
+      <PageContent>
+        {isLoading ? <LoadingIndicator /> : renderContent()}
+        <Grid />
+      </PageContent>
     </React.Fragment>
   );
 };
